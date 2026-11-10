@@ -1,0 +1,29 @@
+.leave-badge {
+  font-size: 12px;
+  font-weight: 500;
+  padding: 4px 12px;
+  border-radius: 999px;
+}
+
+.leave-pending {
+  background: #fef3e2;
+  color: #b45309;
+}
+
+.leave-approved {
+  background: #e3f7ec;
+  color: #15803d;
+}
+
+.leave-rejected {
+  background: #fde8e8;
+  color: #b91c1c;
+}
+
+.leave-approve:hover {
+  color: #15803d;
+}
+
+.leave-reject:hover {
+  color: #b91c1c;
+}

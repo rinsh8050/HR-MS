@@ -1,0 +1,90 @@
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  height: 64px;
+  background: white;
+  border-bottom: 1px solid #e3e7ef;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 32px;
+  font-family: Arial, sans-serif;
+}
+
+.breadcrumb {
+  display: flex;
+  gap: 6px;
+  font-size: 15px;
+}
+
+.breadcrumb-muted {
+  color: #64748b;
+}
+
+.breadcrumb-current {
+  color: #0f172a;
+  font-weight: 500;
+}
+
+.navbar-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.bell-btn {
+  position: relative;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #64748b;
+  padding: 6px;
+  display: flex;
+}
+
+.bell-dot {
+  position: absolute;
+  top: 4px;
+  right: 5px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #1d3fc4;
+  border: 2px solid white;
+}
+
+.divider {
+  width: 1px;
+  height: 28px;
+  background: #e3e7ef;
+}
+
+.profile-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #64748b;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #f3d9c6;
+  color: #b23a1a;
+  font-size: 13px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.user-name {
+  color: #0f172a;
+  font-weight: 500;
+  font-size: 15px;
+}
