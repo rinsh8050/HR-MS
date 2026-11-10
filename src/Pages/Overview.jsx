@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
+import { apiFetch } from "../api";
 import { Link } from "react-router-dom";
 import { Users, Clock, Building2, CalendarDays, ArrowUpRight, ArrowRight } from "lucide-react";
 import "./Overview.css";
-
-const API_URL = "http://localhost:5000/api/overview";
 
 const emptyData = {
   totalEmployees: 0,
@@ -29,19 +28,28 @@ function getInitials(name = "") {
     .join("");
 }
 
+function getFirstName() {
+  try {
+    const user = JSON.parse(localStorage.getItem("user")) || {};
+    return (user.name || "there").split(" ")[0];
+  } catch {
+    return "there";
+  }
+}
+
 export default function Overview() {
   const [data, setData] = useState(emptyData);
   const [error, setError] = useState("");
 
   useEffect(() => {
-    fetch(API_URL)
+    apiFetch("/api/overview")
       .then((res) => {
         if (!res.ok) throw new Error("Server returned an error");
         return res.json();
       })
       .then((json) => setData({ ...emptyData, ...json }))
       .catch(() =>
-        setError("Could not reach the server. Start it with: npm run server")
+        setError("Could not reach the server. Start it with: node server/server.js")
       );
   }, []);
 
@@ -87,7 +95,9 @@ export default function Overview() {
       <div className="ov-header">
         <div>
           <p className="ov-date">{today}</p>
-          <h1 className="ov-title">{getGreeting()}, Alex</h1>
+          <h1 className="ov-title">
+            {getGreeting()}, {getFirstName()}
+          </h1>
           <p className="ov-subtitle">Here's what's happening across your people team.</p>
         </div>
 

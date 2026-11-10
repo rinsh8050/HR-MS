@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { Plus, Search, Pencil, Trash2, X } from "lucide-react";
+import { apiFetch } from "../api";
 import "./Employees.css";
 
-const API = "http://localhost:5000/api";
+const API = "/api";
 const emptyForm = { name: "", email: "", role: "", department: "" };
 
 function getInitials(name = "") {
@@ -29,8 +30,8 @@ export default function Employees() {
 
   useEffect(() => {
     Promise.all([
-      fetch(`${API}/employees`).then((r) => r.json()),
-      fetch(`${API}/departments`).then((r) => r.json()),
+      apiFetch(`${API}/employees`).then((r) => r.json()),
+      apiFetch(`${API}/departments`).then((r) => r.json()),
     ])
       .then(([emps, deps]) => {
         setEmployees(emps);
@@ -74,9 +75,8 @@ export default function Employees() {
     const method = editingId ? "PUT" : "POST";
 
     try {
-      const res = await fetch(url, {
+      const res = await apiFetch(url, {
         method,
-        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
       const data = await res.json();
@@ -98,7 +98,7 @@ export default function Employees() {
   const handleDelete = async (emp) => {
     if (!window.confirm(`Delete ${emp.name}?`)) return;
     try {
-      const res = await fetch(`${API}/employees/${emp._id}`, { method: "DELETE" });
+      const res = await apiFetch(`${API}/employees/${emp._id}`, { method: "DELETE" });
       if (!res.ok) throw new Error();
       setEmployees((prev) => prev.filter((e) => e._id !== emp._id));
     } catch {

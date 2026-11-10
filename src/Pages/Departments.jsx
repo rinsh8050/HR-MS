@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { Plus, Pencil, Trash2, X } from "lucide-react";
+import { apiFetch } from "../api";
 import "./Employees.css";
 
-const API = "http://localhost:5000/api/departments";
+const API = "/api/departments";
 const emptyForm = { name: "", description: "" };
 
 export default function Departments() {
@@ -17,7 +18,7 @@ export default function Departments() {
   const [saving, setSaving] = useState(false);
 
   const load = () =>
-    fetch(API)
+    apiFetch(API)
       .then((r) => r.json())
       .then(setDepartments)
       .catch(() => setPageError("Failed to load departments. Is the server running?"))
@@ -49,9 +50,8 @@ export default function Departments() {
     setSaving(true);
     setFormError("");
     try {
-      const res = await fetch(editingId ? `${API}/${editingId}` : API, {
+      const res = await apiFetch(editingId ? `${API}/${editingId}` : API, {
         method: editingId ? "PUT" : "POST",
-        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
       });
       const data = await res.json();
@@ -67,7 +67,7 @@ export default function Departments() {
 
   const handleDelete = async (dep) => {
     if (!window.confirm(`Delete ${dep.name}?`)) return;
-    const res = await fetch(`${API}/${dep._id}`, { method: "DELETE" });
+    const res = await apiFetch(`${API}/${dep._id}`, { method: "DELETE" });
     const data = await res.json();
     if (!res.ok) return alert(data.message);
     load();

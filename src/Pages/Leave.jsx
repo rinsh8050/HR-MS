@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { Plus, Check, XCircle, Trash2, X } from "lucide-react";
+import { apiFetch } from "../api";
 import "./Employees.css";
 import "./Leave.css";
 
-const API = "http://localhost:5000/api";
+const API = "/api";
 const emptyForm = { employee: "", type: "Annual leave", days: 1 };
 
 function getInitials(name = "") {
@@ -28,8 +29,8 @@ export default function Leave() {
 
   const load = () =>
     Promise.all([
-      fetch(`${API}/leaves`).then((r) => r.json()),
-      fetch(`${API}/employees`).then((r) => r.json()),
+      apiFetch(`${API}/leaves`).then((r) => r.json()),
+      apiFetch(`${API}/employees`).then((r) => r.json()),
     ])
       .then(([l, e]) => {
         setLeaves(l);
@@ -50,9 +51,8 @@ export default function Leave() {
     setSaving(true);
     setFormError("");
     try {
-      const res = await fetch(`${API}/leaves`, {
+      const res = await apiFetch(`${API}/leaves`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ...form, days: Number(form.days) }),
       });
       const data = await res.json();
@@ -68,9 +68,8 @@ export default function Leave() {
   };
 
   const setStatus = async (id, status) => {
-    await fetch(`${API}/leaves/${id}/status`, {
+    await apiFetch(`${API}/leaves/${id}/status`, {
       method: "PATCH",
-      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ status }),
     });
     load();
@@ -78,7 +77,7 @@ export default function Leave() {
 
   const handleDelete = async (id) => {
     if (!window.confirm("Delete this leave request?")) return;
-    await fetch(`${API}/leaves/${id}`, { method: "DELETE" });
+    await apiFetch(`${API}/leaves/${id}`, { method: "DELETE" });
     load();
   };
 
@@ -90,6 +89,7 @@ export default function Leave() {
           <h1 className="emp-title">Leave requests</h1>
           <p className="emp-subtitle">Review and manage time away from work.</p>
         </div>
+
        
       </div>
 
